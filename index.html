@@ -216,7 +216,13 @@
     <div class="circle black"></div>
     <div class="circle random"></div>
     <div class="widget-container">
-        <iframe src="https://discord.com/widget?id=1328518742262419507&theme=dark" allowtransparency="true" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <div class="draggable">
+            <div class="title-bar">
+                <span>Discord Widget</span>
+                <button onclick="this.parentElement.parentElement.remove()">Close</button>
+            </div>
+            <iframe src="https://discord.com/widget?id=1328518742262419507&theme=dark" allowtransparency="true" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        </div>
     </div>
 
     <script>
@@ -260,3 +266,5 @@
             });
         }
     </script>
+</body>
+</html>
