@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuzChat</title>
+    <title>BuzOS</title>
     <style>
         body {
             margin: 0;
@@ -118,20 +118,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
         }
 
-        .widget-container {
-            width: 370px;
-            height: 520px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 2;
-            margin-left: 120px;
-        }
-
         .dropdown {
             position: absolute;
             top: 100px;
@@ -205,33 +191,32 @@
     <div class="sidebar">
         <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/home.png" alt="Home"></div>
         <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Search"></div>
-        <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Games"></div>
+        <div class="button games-button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Games"></div>
         <div class="button apps-button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/app-store.png" alt="Apps"></div>
         <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/settings.png" alt="Settings"></div>
     </div>
-    <div class="dropdown">
-        <button onclick="openApp('https://play.szvy.win/embed.html#https://discord.com/login')">Discord</button>
+    <div class="dropdown apps-dropdown">
         <button onclick="openApp('https://play.szvy.win/embed.html#https://www.google.com')">Google</button>
+    </div>
+    <div class="dropdown games-dropdown">
+        <button onclick="openApp('https://play.szvy.win/embed.html#https://poki.com')">Poki</button>
     </div>
     <div class="circle orange"></div>
     <div class="circle black"></div>
     <div class="circle random"></div>
-    <div class="widget-container">
-        <div class="draggable">
-            <div class="title-bar">
-                <span>Discord Widget</span>
-                <button onclick="this.parentElement.parentElement.remove()">Close</button>
-            </div>
-            <iframe src="https://discord.com/widget?id=1328518742262419507&theme=dark" allowtransparency="true" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-        </div>
-    </div>
 
     <script>
         const appsButton = document.querySelector('.apps-button');
-        const dropdown = document.querySelector('.dropdown');
+        const appsDropdown = document.querySelector('.apps-dropdown');
+        const gamesButton = document.querySelector('.games-button');
+        const gamesDropdown = document.querySelector('.games-dropdown');
 
         appsButton.addEventListener('click', () => {
-            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+            appsDropdown.style.display = appsDropdown.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        gamesButton.addEventListener('click', () => {
+            gamesDropdown.style.display = gamesDropdown.style.display === 'flex' ? 'none' : 'flex';
         });
 
         function openApp(url) {
