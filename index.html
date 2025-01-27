@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuzChat</title>
+    <title>BuzOS</title>
     <style>
         body {
             margin: 0;
@@ -106,7 +106,6 @@
         .button img {
             width: 40px;
             height: 40px;
-            border-radius: 10px;
         }
 
         .button:hover {
@@ -115,55 +114,61 @@
 
         .dropdown {
             position: absolute;
-            background: lightgray;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 4;
+            background: white;
             border: 1px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            width: 400px;
-            height: 300px;
-            display: none;
-            z-index: 4;
-            resize: both;
-            overflow: hidden;
-        }
-
-        .dropdown .title-bar {
-            background: orange;
+            width: 300px;
+            height: 200px;
             padding: 10px;
-            cursor: move;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            font-weight: bold;
+            animation: fadeIn 0.3s;
         }
 
-        .dropdown .title-bar button {
-            background: red;
+        .dropdown button {
+            background: orange;
             border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .dropdown .title-bar button:hover {
-            background: darkred;
-        }
-
-        .dropdown-content {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100% - 40px);
-            gap: 10px;
+            cursor: pointer;
         }
 
-        .dropdown-content img {
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            border-radius: 10px;
+        .dropdown button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .dropdown button:hover {
+            background: darkorange;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
         }
 
         .draggable {
@@ -177,6 +182,12 @@
             z-index: 5;
             resize: both;
             overflow: hidden;
+            animation: fadeIn 0.3s;
+        }
+
+        .draggable.closing {
+            animation: fadeOut 0.3s;
+            animation-fill-mode: forwards;
         }
 
         .draggable .title-bar {
@@ -218,25 +229,23 @@
         <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/settings.png" alt="Settings"></div>
     </div>
     <div class="dropdown apps-dropdown">
-        <div class="title-bar">
-            <span>Apps</span>
-            <button onclick="this.parentElement.parentElement.style.display = 'none'">Close</button>
-        </div>
-        <div class="dropdown-content">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Bing" onclick="openApp('https://bing.com')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Google" onclick="openApp('https://google.com')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/discord-logo.png" alt="Discord" onclick="openApp('https://discord.com')">
-        </div>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cbkne.aoo%2F%3Dbpdp%3D3')">
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Bing">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cgmoelg.aoo%2F%3Dgus%5Drf%3Dqsn')">
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Google">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-dksaopd%2Ccmm-')">
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/discord-logo.png" alt="Discord">
+        </button>
     </div>
     <div class="dropdown games-dropdown">
-        <div class="title-bar">
-            <span>Games</span>
-            <button onclick="this.parentElement.parentElement.style.display = 'none'">Close</button>
-        </div>
-        <div class="dropdown-content">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Poki" onclick="openApp('https://poki.com')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="CrazyGames" onclick="openApp('https://crazygames.com')">
-        </div>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-pmkk.aoo%2F')">
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Poki">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Ccpaxyeaoeq.aoo%2F')">
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="CrazyGames">
+        </button>
     </div>
     <div class="circle orange"></div>
     <div class="circle black"></div>
@@ -249,42 +258,44 @@
         const gamesDropdown = document.querySelector('.games-dropdown');
 
         appsButton.addEventListener('click', () => {
-            appsDropdown.style.display = appsDropdown.style.display === 'flex' ? 'none' : 'flex';
+            toggleDropdown(appsDropdown);
         });
 
         gamesButton.addEventListener('click', () => {
-            gamesDropdown.style.display = gamesDropdown.style.display === 'flex' ? 'none' : 'flex';
+            toggleDropdown(gamesDropdown);
         });
+
+        function toggleDropdown(dropdown) {
+            const isVisible = dropdown.style.display === 'flex';
+            document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+            dropdown.style.display = isVisible ? 'none' : 'flex';
+        }
 
         function openApp(url) {
             const appWindow = document.createElement('div');
             appWindow.className = 'draggable';
             appWindow.innerHTML = `
                 <div class="title-bar">
-                    <span>App</span>
-                    <button onclick="this.parentElement.parentElement.remove()">Close</button>
+                    <span>App Window</span>
+                    <button onclick="closeApp(this)">Close</button>
                 </div>
                 <iframe src="${url}"></iframe>
             `;
             document.body.appendChild(appWindow);
 
-            makeDraggable(appWindow);
-        }
-
-        function makeDraggable(element) {
             let offsetX = 0, offsetY = 0, isDragging = false;
 
-            const titleBar = element.querySelector('.title-bar');
+            const titleBar = appWindow.querySelector('.title-bar');
             titleBar.addEventListener('mousedown', (e) => {
                 isDragging = true;
-                offsetX = e.clientX - element.offsetLeft;
-                offsetY = e.clientY - element.offsetTop;
+                offsetX = e.clientX - appWindow.offsetLeft;
+                offsetY = e.clientY - appWindow.offsetTop;
             });
 
             document.addEventListener('mousemove', (e) => {
                 if (isDragging) {
-                    element.style.left = `${e.clientX - offsetX}px`;
-                    element.style.top = `${e.clientY - offsetY}px`;
+                    appWindow.style.left = `${e.clientX - offsetX}px`;
+                    appWindow.style.top = `${e.clientY - offsetY}px`;
                 }
             });
 
@@ -293,8 +304,11 @@
             });
         }
 
-        makeDraggable(appsDropdown);
-        makeDraggable(gamesDropdown);
+        function closeApp(button) {
+            const appWindow = button.closest('.draggable');
+            appWindow.classList.add('closing');
+            appWindow.addEventListener('animationend', () => appWindow.remove());
+        }
     </script>
 </body>
 </html>
