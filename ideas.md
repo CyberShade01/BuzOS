@@ -1,0 +1,5 @@
+fix the css with the sidebar and circles and shit [ ]
+add roblox and fortnite, [ ]
+add more apps, [ ]
+add a search window and move google and bing into it  [ ]
+add settings [ ]
