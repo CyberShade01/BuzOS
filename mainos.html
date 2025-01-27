@@ -1,1 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuzOS</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: linear-gradient(135deg, orange, black);
+            background-size: 200% 200%;
+            animation: morphBackground 6s infinite alternate;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
 
+        @keyframes morphBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: morphCircle 8s infinite alternate, wave 6s infinite;
+        }
+
+        .circle.orange {
+            width: 300px;
+            height: 300px;
+            background: orange;
+            top: 20%;
+            left: 10%;
+        }
+
+        .circle.black {
+            width: 400px;
+            height: 400px;
+            background: black;
+            top: 50%;
+            left: 60%;
+        }
+
+        .circle.random {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 165, 0, 0.6);
+            top: 40%;
+            left: 30%;
+        }
+
+        @keyframes morphCircle {
+            0% {
+                transform: scale(1) translateY(0) skew(0deg, 0deg);
+            }
+            50% {
+                transform: scale(1.2) translateY(-20px) skew(10deg, 10deg);
+            }
+            100% {
+                transform: scale(1.5) translateY(10px) skew(-10deg, -10deg);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                border-radius: 50%;
+            }
+            50% {
+                border-radius: 40% 60% 60% 40% / 50% 50% 60% 60%;
+            }
+        }
+
+        .sidebar {
+            width: 100px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px 0;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            width: 60px;
+            height: 60px;
+            background: orange;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        .dropdown {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 4;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            width: 300px;
+            height: 200px;
+            padding: 10px;
+            animation: fadeIn 0.3s;
+        }
+
+        .dropdown button {
+            background: orange;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .dropdown button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .dropdown button:hover {
+            background: darkorange;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        .draggable {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            width: 600px;
+            height: 400px;
+            z-index: 5;
+            resize: both;
+            overflow: hidden;
+            animation: fadeIn 0.3s;
+        }
+
+        .draggable.closing {
+            animation: fadeOut 0.3s;
+            animation-fill-mode: forwards;
+        }
+
+        .draggable .title-bar {
+            background: orange;
+            padding: 10px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .draggable .title-bar button {
+            background: red;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .draggable .title-bar button:hover {
+            background: darkred;
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Search"></div>
+        <div class="button games-button"><img src="https://cdn-icons-png.flaticon.com/512/3743/3743230.png" alt="Games"></div>
+        <div class="button apps-button"><img src="https://static.thenounproject.com/png/3844663-200.png" alt="Apps"></div>
+        <div class="button"><img src="https://img.icons8.com/ios-filled/50/FFFFFF/settings.png" alt="Settings"></div>
+    </div>
+    <div class="dropdown apps-dropdown">
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cbkne.aoo%2F%3Dbpdp%3D3')">
+            <img src="https://cdn.vox-cdn.com/thumbor/lw7eaG_tnqPDo-Jy5CVzQ22WyCY=/0x0:660x440/1400x1050/filters:focal(330x220:331x221)/cdn.vox-cdn.com/uploads/chorus_asset/file/21937385/binglogo.jpg" alt="Bing">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cgmoelg.aoo%2F%3Dgus%5Drf%3Dqsn')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-dksaopd%2Ccmm-')">
+            <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+        </button>
+    </div>
+    <div class="dropdown games-dropdown">
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-pmkk.aoo%2F')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST35kPEz9v5SaVDESkqZX0jIWVega7lJ2YYg&s" alt="Poki">
+        </button>
+        <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Ccpaxyeaoeq.aoo%2F')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Crazygames_jpg_logo.jpg/640px-Crazygames_jpg_logo.jpg" alt="CrazyGames">
+        </button>
+        <button onclick="openApp('https://play.szvy.win/embed.html#https://ngg.frogiee.one/hub')">
+            <img src="https://miro.medium.com/v2/resize:fit:1000/1*YM7t6RluDCb0XT62yy2aqQ.png" alt="NggBypass">
+        </button>
+    </div>
+    <div class="circle orange"></div>
+    <div class="circle black"></div>
+    <div class="circle random"></div>
+
+    <script>
+        const appsButton = document.querySelector('.apps-button');
+        const appsDropdown = document.querySelector('.apps-dropdown');
+        const gamesButton = document.querySelector('.games-button');
+        const gamesDropdown = document.querySelector('.games-dropdown');
+
+        appsButton.addEventListener('click', () => {
+            toggleDropdown(appsDropdown);
+        });
+
+        gamesButton.addEventListener('click', () => {
+            toggleDropdown(gamesDropdown);
+        });
+
+        function toggleDropdown(dropdown) {
+            const isVisible = dropdown.style.display === 'flex';
+            document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+            dropdown.style.display = isVisible ? 'none' : 'flex';
+        }
+
+        function openApp(url) {
+            const appWindow = document.createElement('div');
+            appWindow.className = 'draggable';
+            appWindow.innerHTML = `
+                <div class="title-bar">
+                    <span>App Window</span>
+                    <button onclick="closeApp(this)">X</button>
+                </div>
+                <iframe src="${url}"></iframe>
+            `;
+            document.body.appendChild(appWindow);
+
+            let offsetX = 0, offsetY = 0, isDragging = false;
+
+            const titleBar = appWindow.querySelector('.title-bar');
+            titleBar.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - appWindow.offsetLeft;
+                offsetY = e.clientY - appWindow.offsetTop;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    appWindow.style.left = `${e.clientX - offsetX}px`;
+                    appWindow.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+        }
+
+        function closeApp(button) {
+            const appWindow = button.closest('.draggable');
+            appWindow.classList.add('closing');
+            appWindow.addEventListener('animationend', () => appWindow.remove());
+        }
+    </script>
+</body>
+</html>
