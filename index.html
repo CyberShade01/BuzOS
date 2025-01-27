@@ -100,6 +100,20 @@
             }
         }
 
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0;
+            z-index: 2;
+            animation: fadeIn 1s ease-in-out forwards;
+            animation-delay: 3s;
+            pointer-events: none; /* Prevent interaction until fully visible */
+        }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -113,6 +127,7 @@
 <body>
     <div class="container">
         <svg class="bee-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Bee icon">
+            <!-- Simplified Bee -->
             <ellipse cx="32" cy="32" rx="18" ry="24" fill="#FFC107" />
             <circle cx="32" cy="32" r="4" fill="#000" />
             <ellipse cx="20" cy="20" rx="8" ry="10" fill="#BBDEFB" opacity="0.7" />
@@ -123,5 +138,6 @@
         </div>
         <div class="loading-bar"></div>
     </div>
+    <iframe src="https://cybershade01.github.io/BuzOS/mainos.html" title="BuzOS Interface"></iframe>
 </body>
 </html>
