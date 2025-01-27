@@ -114,37 +114,61 @@
 
         .dropdown {
             position: absolute;
-            top: 100px;
-            left: 120px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
             display: none;
             flex-direction: column;
             gap: 10px;
             z-index: 4;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            width: 300px;
+            height: 200px;
+            padding: 10px;
+            animation: fadeIn 0.3s;
         }
 
         .dropdown button {
             background: orange;
             border: none;
-            color: white;
-            padding: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            border-radius: 5px;
             cursor: pointer;
         }
 
         .dropdown button img {
-            width: 20px;
-            height: 20px;
+            width: 40px;
+            height: 40px;
         }
 
         .dropdown button:hover {
             background: darkorange;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
         }
 
         .draggable {
@@ -158,6 +182,12 @@
             z-index: 5;
             resize: both;
             overflow: hidden;
+            animation: fadeIn 0.3s;
+        }
+
+        .draggable.closing {
+            animation: fadeOut 0.3s;
+            animation-fill-mode: forwards;
         }
 
         .draggable .title-bar {
@@ -200,21 +230,21 @@
     </div>
     <div class="dropdown apps-dropdown">
         <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cbkne.aoo%2F%3Dbpdp%3D3')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Bing">Bing
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Bing">
         </button>
         <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cgmoelg.aoo%2F%3Dgus%5Drf%3Dqsn')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="google">Google
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/search.png" alt="Google">
         </button>
         <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-dksaopd%2Ccmm-')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/discord-logo.png" alt="Discord">Discord
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/discord-logo.png" alt="Discord">
         </button>
     </div>
     <div class="dropdown games-dropdown">
         <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-pmkk.aoo%2F')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Poki">Poki
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Poki">
         </button>
         <button onclick="openApp('https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Ccpaxyeaoeq.aoo%2F')">
-            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="Poki">CrazyGames
+            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/game-controller.png" alt="CrazyGames">
         </button>
     </div>
     <div class="circle orange"></div>
@@ -228,20 +258,26 @@
         const gamesDropdown = document.querySelector('.games-dropdown');
 
         appsButton.addEventListener('click', () => {
-            appsDropdown.style.display = appsDropdown.style.display === 'flex' ? 'none' : 'flex';
+            toggleDropdown(appsDropdown);
         });
 
         gamesButton.addEventListener('click', () => {
-            gamesDropdown.style.display = gamesDropdown.style.display === 'flex' ? 'none' : 'flex';
+            toggleDropdown(gamesDropdown);
         });
+
+        function toggleDropdown(dropdown) {
+            const isVisible = dropdown.style.display === 'flex';
+            document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+            dropdown.style.display = isVisible ? 'none' : 'flex';
+        }
 
         function openApp(url) {
             const appWindow = document.createElement('div');
             appWindow.className = 'draggable';
             appWindow.innerHTML = `
                 <div class="title-bar">
-                    <span> </span>
-                    <button onclick="this.parentElement.parentElement.remove()">Close</button>
+                    <span>App Window</span>
+                    <button onclick="closeApp(this)">Close</button>
                 </div>
                 <iframe src="${url}"></iframe>
             `;
@@ -266,6 +302,12 @@
             document.addEventListener('mouseup', () => {
                 isDragging = false;
             });
+        }
+
+        function closeApp(button) {
+            const appWindow = button.closest('.draggable');
+            appWindow.classList.add('closing');
+            appWindow.addEventListener('animationend', () => appWindow.remove());
         }
     </script>
 </body>
