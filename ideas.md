@@ -11,3 +11,5 @@ add settings [ ]
 give the sidebar-triggered dropdown windows a topbar like the other windows (poki, google, etc) and make them resisable and drabable [ ]
 
 add os functions like storage and files and downloading stuff (might take a while) [ ]
+
+fix ugly background ciccles [ ]
