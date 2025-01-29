@@ -12,4 +12,4 @@ give the sidebar-triggered dropdown windows a topbar like the other windows (pok
 
 add os functions like storage and files and downloading stuff (might take a while) [ ]
 
-fix ugly background ciccles [ ]
+fix ugly background circles [ ]
