@@ -5,220 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velox</title>
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            background: linear-gradient(135deg, orange, black);
-            background-size: 200% 200%;
-            animation: morphBackground 6s infinite alternate;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: linear-gradient(135deg, red, black);
+    background-size: 200% 200%;
+    animation: morphBackground 6s infinite alternate;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
 
-        @keyframes morphBackground {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
+@keyframes morphBackground {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
 
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: morphCircle 8s infinite alternate, wave 6s infinite;
-        }
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: morphCircle 8s infinite alternate, wave 6s infinite;
+}
 
-        .circle.orange {
-            width: 300px;
-            height: 300px;
-            background: Black;
-            top: 20%;
-            left: 10%;
-        }
+.circle.red {
+    width: 300px;
+    height: 300px;
+    background: black;
+    top: 20%;
+    left: 10%;
+}
 
-        .circle.black {
-            width: 400px;
-            height: 400px;
-            background: red;
-            top: 50%;
-            left: 60%;
-        }
+.circle.black {
+    width: 400px;
+    height: 400px;
+    background: red;
+    top: 50%;
+    left: 60%;
+}
 
-        .circle.random {
-            width: 350px;
-            height: 350px;
-            background: rgba(255, 165, 0, 0.6);
-            top: 40%;
-            left: 30%;
-        }
+@keyframes morphCircle {
+    0% { transform: scale(1) translateY(0) skew(0deg, 0deg); }
+    50% { transform: scale(1.2) translateY(-20px) skew(10deg, 10deg); }
+    100% { transform: scale(1.5) translateY(10px) skew(-10deg, -10deg); }
+}
 
-        @keyframes morphCircle {
-            0% {
-                transform: scale(1) translateY(0) skew(0deg, 0deg);
-            }
-            50% {
-                transform: scale(1.2) translateY(-20px) skew(10deg, 10deg);
-            }
-            100% {
-                transform: scale(1.5) translateY(10px) skew(-10deg, -10deg);
-            }
-        }
+@keyframes wave {
+    0%, 100% { border-radius: 50%; }
+    50% { border-radius: 40% 60% 60% 40% / 50% 50% 60% 60%; }
+}
 
-        @keyframes wave {
-            0%, 100% {
-                border-radius: 50%;
-            }
-            50% {
-                border-radius: 40% 60% 60% 40% / 50% 50% 60% 60%;
-            }
-        }
+.sidebar {
+    width: 100px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 0;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+}
 
-        .sidebar {
-            width: 100px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px 0;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
-        }
+.button {
+    width: 60px;
+    height: 60px;
+    background: red;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-        .button {
-            width: 60px;
-            height: 60px;
-            background: red;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+.button img {
+    width: 40px;
+    height: 40px;
+}
 
-        .button img {
-            width: 40px;
-            height: 40px;
-        }
+.button:hover {
+    transform: scale(1.1);
+}
 
-        .button:hover {
-            transform: scale(1.1);
-        }
+.dropdown {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 4;
+    background: black;
+    border: 1px solid red;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    animation: fadeIn 0.3s;
+}
 
-        .dropdown {
-            position: absolute;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 4;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            width: 300px;
-            height: 200px;
-            padding: 10px;
-            animation: fadeIn 0.3s;
-        }
+.dropdown button {
+    background: red;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 
-        .dropdown button {
-            background: red;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
+.dropdown button img {
+    width: 40px;
+    height: 40px;
+}
 
-        .dropdown button img {
-            width: 40px;
-            height: 40px;
-        }
+.dropdown button:hover {
+    background: darkred;
+}
 
-        .dropdown button:hover {
-            background: darkred;
-        }
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.8); }
+}
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-        }
+.draggable {
+    position: absolute;
+    background: black;
+    border: 1px solid red;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+    width: 600px;
+    height: 400px;
+    z-index: 5;
+    resize: both;
+    overflow: hidden;
+    animation: fadeIn 0.3s;
+}
 
-        .draggable {
-            position: absolute;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            width: 600px;
-            height: 400px;
-            z-index: 5;
-            resize: both;
-            overflow: hidden;
-            animation: fadeIn 0.3s;
-        }
+.draggable.closing {
+    animation: fadeOut 0.3s;
+    animation-fill-mode: forwards;
+}
 
-        .draggable.closing {
-            animation: fadeOut 0.3s;
-            animation-fill-mode: forwards;
-        }
+.draggable .title-bar {
+    background: red;
+    padding: 10px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
 
-        .draggable .title-bar {
-            background: black;
-            padding: 10px;
-            cursor: move;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-        }
+.draggable .title-bar button {
+    background: black;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        .draggable .title-bar button {
-            background: red;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.draggable .title-bar button:hover {
+    background: darkred;
+}
 
-        .draggable .title-bar button:hover {
-            background: darkred;
-        }
-
-        iframe {
-            width: 100%;
-            height: calc(100% - 40px);
-            border: none;
-        }
+iframe {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
     </style>
 </head>
 <body>
